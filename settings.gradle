@@ -1,0 +1,2 @@
+include ':app', ':testaidlclient'
+rootProject.name='Aidltest2'
