@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -17,6 +18,31 @@ public class Myservice extends Service {
         return iBinder;
     }
 
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Log.e("Myservice","onCreate");
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.e("Myservice","onStartCommand");
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    @Override
+    public void onStart(Intent intent, int startId) {
+        super.onStart(intent, startId);
+        Log.e("Myservice","onStart");
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.e("Myservice","onDestroy");
+        super.onDestroy();
+    }
+
          IBinder iBinder = new IMyAidlInterface.Stub(){
 
              @Override
@@ -25,14 +51,15 @@ public class Myservice extends Service {
                     if (mBook!=null){
                         return mBook;
                     }
-                    return new Book("defult",0);
+                    return new Book("defult12213123",0);
                 }
              }
 
              @Override
              public void addBook(Book book) throws RemoteException {
 
-                 mBook = new Book("new book",1);
+//                 mBook = new Book("new book",1);
+                 mBook = book;
 
              }
          };

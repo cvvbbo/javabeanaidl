@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
@@ -36,13 +37,27 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            IMyAidlInterface mAidl = IMyAidlInterface.Stub.asInterface(service);
+            final IMyAidlInterface mAidl = IMyAidlInterface.Stub.asInterface(service);
             try {
+                // 获取到服务端aidl 中的值。
                 Book book = mAidl.getdata();
                 Log.e("this-->",book.getName()+"--"+book.getAge());
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        // 在客户端里面给aidl 服务端赋值。
+                        mAidl.addBook(new Book("hahaha",20));
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            },1500);
 
 
         }
